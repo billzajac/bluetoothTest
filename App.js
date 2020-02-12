@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   StyleSheet,
   Text,
   View,
@@ -36,7 +37,6 @@ export default class App extends Component {
     this.handleDiscoverPeripheral = this.handleDiscoverPeripheral.bind(this);
     this.handleStopScan = this.handleStopScan.bind(this);
     this.handleUpdateValueForCharacteristic = this.handleUpdateValueForCharacteristic.bind(this);
-    this.handleDisconnectedPeripheral = this.handleDisconnectedPeripheral.bind(this);
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
   }
 
@@ -47,7 +47,6 @@ export default class App extends Component {
 
     this.handlerDiscover = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', this.handleDiscoverPeripheral );
     this.handlerStop = bleManagerEmitter.addListener('BleManagerStopScan', this.handleStopScan );
-    this.handlerDisconnect = bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', this.handleDisconnectedPeripheral );
     this.handlerUpdate = bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', this.handleUpdateValueForCharacteristic );
 
 
@@ -83,19 +82,7 @@ export default class App extends Component {
   componentWillUnmount() {
     this.handlerDiscover.remove();
     this.handlerStop.remove();
-    this.handlerDisconnect.remove();
     this.handlerUpdate.remove();
-  }
-
-  handleDisconnectedPeripheral(data) {
-    let peripherals = this.state.peripherals;
-    let peripheral = peripherals.get(data.peripheral);
-    if (peripheral) {
-      peripheral.connected = false;
-      peripherals.set(peripheral.id, peripheral);
-      this.setState({peripherals});
-    }
-    console.log('Disconnected from ' + data.peripheral);
   }
 
   handleUpdateValueForCharacteristic(data) {
@@ -110,111 +97,26 @@ export default class App extends Component {
   startScan() {
     if (!this.state.scanning) {
       //this.setState({peripherals: new Map()});
-      BleManager.scan([], 3, true).then((results) => {
+      BleManager.scan([], 5, true).then((results) => {
         console.log('Scanning...');
         this.setState({scanning:true});
       });
     }
   }
 
-  retrieveConnected(){
-    BleManager.getConnectedPeripherals([]).then((results) => {
-      if (results.length == 0) {
-        console.log('No connected peripherals')
-      }
-      console.log(results);
-      var peripherals = this.state.peripherals;
-      for (var i = 0; i < results.length; i++) {
-        var peripheral = results[i];
-        peripheral.connected = true;
-        peripherals.set(peripheral.id, peripheral);
-        this.setState({ peripherals });
-      }
-    });
-  }
-
   handleDiscoverPeripheral(peripheral){
     var peripherals = this.state.peripherals;
     console.log('Got ble peripheral', peripheral);
-    if (!peripheral.name) {
-      peripheral.name = 'NO NAME';
-    }
-    peripherals.set(peripheral.id, peripheral);
-    this.setState({ peripherals });
-  }
-
-  test(peripheral) {
-    if (peripheral){
-      if (peripheral.connected){
-        BleManager.disconnect(peripheral.id);
-      }else{
-        BleManager.connect(peripheral.id).then(() => {
-          let peripherals = this.state.peripherals;
-          let p = peripherals.get(peripheral.id);
-          if (p) {
-            p.connected = true;
-            peripherals.set(peripheral.id, p);
-            this.setState({peripherals});
-          }
-          console.log('Connected to ' + peripheral.id);
-
-
-          setTimeout(() => {
-
-            /* Test read current RSSI value
-            BleManager.retrieveServices(peripheral.id).then((peripheralData) => {
-              console.log('Retrieved peripheral services', peripheralData);
-              BleManager.readRSSI(peripheral.id).then((rssi) => {
-                console.log('Retrieved actual RSSI value', rssi);
-              });
-            });*/
-
-            // Test using bleno's pizza example
-            // https://github.com/sandeepmistry/bleno/tree/master/examples/pizza
-            BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
-              console.log(peripheralInfo);
-              var service = '13333333-3333-3333-3333-333333333337';
-              var bakeCharacteristic = '13333333-3333-3333-3333-333333330003';
-              var crustCharacteristic = '13333333-3333-3333-3333-333333330001';
-
-              setTimeout(() => {
-                BleManager.startNotification(peripheral.id, service, bakeCharacteristic).then(() => {
-                  console.log('Started notification on ' + peripheral.id);
-                  setTimeout(() => {
-                    BleManager.write(peripheral.id, service, crustCharacteristic, [0]).then(() => {
-                      console.log('Writed NORMAL crust');
-                      BleManager.write(peripheral.id, service, bakeCharacteristic, [1,95]).then(() => {
-                        console.log('Writed 351 temperature, the pizza should be BAKED');
-                        /*
-                        var PizzaBakeResult = {
-                          HALF_BAKED: 0,
-                          BAKED:      1,
-                          CRISPY:     2,
-                          BURNT:      3,
-                          ON_FIRE:    4
-                        };*/
-                      });
-                    });
-
-                  }, 500);
-                }).catch((error) => {
-                  console.log('Notification error', error);
-                });
-              }, 200);
-            });
-
-          }, 900);
-        }).catch((error) => {
-          console.log('Connection error', error);
-        });
-      }
+    if (peripheral.name == 'windup2') {
+      peripherals.set(peripheral.id, peripheral);
+      this.setState({ peripherals });
     }
   }
 
   renderItem(item) {
     const color = item.connected ? 'green' : '#fff';
     return (
-      <TouchableHighlight onPress={() => this.test(item) }>
+      <TouchableHighlight onPress={() => Alert.alert(item.name) }>
         <View style={[styles.row, {backgroundColor: color}]}>
           <Text style={{fontSize: 12, textAlign: 'center', color: '#333333', padding: 10}}>{item.name}</Text>
           <Text style={{fontSize: 10, textAlign: 'center', color: '#333333', padding: 2}}>RSSI: {item.rssi}</Text>
@@ -236,10 +138,6 @@ export default class App extends Component {
             <Button title={btnScanTitle} onPress={() => this.startScan() } />        
           </View>
 
-          <View style={{margin: 10}}>
-            <Button title="Retrieve connected peripherals" onPress={() => this.retrieveConnected() } />        
-          </View>          
-                    
           <View style={styles.scroll}>
             {(list.length == 0) &&
               <View style={{flex:1, margin: 20}}>
