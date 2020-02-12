@@ -13,7 +13,7 @@ export class BlueToothTest extends React.Component{
         this.state = {
             is_scanning: true
         }
-        this.gearVR = [];
+        this.beacon = [];
     }
 
     componentDidMount() {
@@ -24,9 +24,9 @@ export class BlueToothTest extends React.Component{
 
 
         bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', (peripheral) => {
-            if (peripheral.name == 'Gear VR Controller(D5F9)') {
+            if (peripheral.name == 'windup2') {
                 console.log(peripheral);
-                this.gearVR = peripheral;
+                this.beacon = peripheral;
             }
         });
 
@@ -43,7 +43,7 @@ export class BlueToothTest extends React.Component{
                 newBuff = new Uint8Array(value)
                 console.log(Boolean(newBuff[58] & (1 << 0)))
                 const data = bytesToString(value);
-                // console.log(`Recieved ${data} for characteristic ${characteristic}`);
+                console.log(`Recieved ${data} for characteristic ${characteristic}`);
             }
         );
 
@@ -66,8 +66,8 @@ export class BlueToothTest extends React.Component{
     }
 
     startNotification() {
-        BleManager.startNotification(this.gearVR.id, 
-                                    '4f63756c-7573-2054-6872-65656d6f7465',
+        BleManager.startNotification(this.beacon.id, 
+                                    '426C7565-4368-6172-6D42-6561636F6E73',
                                     'c8c51726-81bc-483b-a052-f7a14ea3d281')
         .then(() => {
             // Success code
@@ -81,22 +81,22 @@ export class BlueToothTest extends React.Component{
 
 
     newConnect() {
-        BleManager.connect(this.gearVR.id).then(() => {
+        BleManager.connect(this.beacon.id).then(() => {
 
             // Alert.alert('Connected!', 'You are now connected to the peripheral.');
   
             setTimeout(() => {
-              BleManager.retrieveServices(this.gearVR.id).then((peripheralInfo) => {
+              BleManager.retrieveServices(this.beacon.id).then((peripheralInfo) => {
                 console.log(peripheralInfo);
                 var service = '4f63756c-7573-2054-6872-65656d6f7465';
                 var notify = 'c8c51726-81bc-483b-a052-f7a14ea3d281';
                 var characteristic = 'c8c51726-81bc-483b-a052-f7a14ea3d282';
   
                 setTimeout(() => {
-                  BleManager.startNotification(this.gearVR.id, service, notify).then(() => {
-                    console.log('Started notification on ' + this.gearVR.id);
+                  BleManager.startNotification(this.beacon.id, service, notify).then(() => {
+                    console.log('Started notification on ' + this.beacon.id);
                     setTimeout(() => {
-                      BleManager.write(this.gearVR.id, service, characteristic, [1, 0]).then(() => {
+                      BleManager.write(this.beacon.id, service, characteristic, [1, 0]).then(() => {
                         console.log('Write: ' + data);
                       });
   
