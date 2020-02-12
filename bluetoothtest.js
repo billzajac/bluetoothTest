@@ -6,8 +6,9 @@ import BleManager from 'react-native-ble-manager';
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
-export class BlueToothTest extends React.Component{
+// https://github.com/innoveit/react-native-ble-manager
 
+export class BlueToothTest extends React.Component{
     constructor() { 
         super();
         this.state = {
@@ -17,13 +18,24 @@ export class BlueToothTest extends React.Component{
     }
 
     componentDidMount() {
+        // [Android only]
+        BleManager.enableBluetooth()
+          .then(() => {
+            // Success code
+            console.log('The bluetooth is already enabled or the user confirm');
+          })
+          .catch((error) => {
+            // Failure code
+            console.log('The user refuse to enable bluetooth');
+        });
+
         BleManager.start({showAlert: true})
         .then(() => {
             console.log('Module initialized');
         });
 
-
         bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', (peripheral) => {
+            console.log(peripheral.name);
             if (peripheral.name == 'windup2') {
                 console.log(peripheral);
                 this.beacon = peripheral;
@@ -61,7 +73,7 @@ export class BlueToothTest extends React.Component{
         
         BleManager.scan([], 3, true)
         .then(() => { 
-            console.log('scan started');
+            console.log('Scan started');
         });
     }
 
