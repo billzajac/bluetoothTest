@@ -79,48 +79,13 @@ export class BlueToothTest extends React.Component{
         });
     }
 
-
-    newConnect() {
-        BleManager.connect(this.beacon.id).then(() => {
-
-            // Alert.alert('Connected!', 'You are now connected to the peripheral.');
-  
-            setTimeout(() => {
-              BleManager.retrieveServices(this.beacon.id).then((peripheralInfo) => {
-                console.log(peripheralInfo);
-                var service = '4f63756c-7573-2054-6872-65656d6f7465';
-                var notify = 'c8c51726-81bc-483b-a052-f7a14ea3d281';
-                var characteristic = 'c8c51726-81bc-483b-a052-f7a14ea3d282';
-  
-                setTimeout(() => {
-                  BleManager.startNotification(this.beacon.id, service, notify).then(() => {
-                    console.log('Started notification on ' + this.beacon.id);
-                    setTimeout(() => {
-                      BleManager.write(this.beacon.id, service, characteristic, [1, 0]).then(() => {
-                        console.log('Write: ' + data);
-                      });
-  
-                    }, 500);
-                  }).catch((error) => {
-                    console.log('Notification error', error);
-                  });
-                }, 200);
-              });
-  
-            }, 900);
-          }).catch((error) => {
-            console.log('Connection error', error);
-          });
-    }
+// Alert.alert('Connected!', 'You are now connected to the peripheral.');
 
     render() {
         const btnScanTitle = 'Scan Bluetooth (' + (this.state.is_scanning ? 'on' : 'off') + ')';
         return (
             <View style={{margin: 10}}>
             <Button title={btnScanTitle} onPress={() => this.startScan() } />        
-            <Button title={'CONNECT'} onPress={() => this.newConnect() } />
-            {/* <Button title={'START NOTIFICATION'} onPress={() => this.startNotification() } />
-            <Button title={'WRITE NOTIFICATION'} onPress={() => this.writeNotification() } /> */}
           </View>
         );
     }
