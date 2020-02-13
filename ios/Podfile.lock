@@ -182,10 +182,6 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
-  - react-native-ble-plx (1.1.1):
-    - React
-    - react-native-ble-plx-swift
-  - react-native-ble-plx-swift (1.1.1)
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
   - React-RCTAnimation (0.61.5):
@@ -240,8 +236,6 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
-  - react-native-ble-plx (from `../node_modules/react-native-ble-plx`)
-  - react-native-ble-plx-swift (from `../node_modules/react-native-ble-plx`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -288,10 +282,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
-  react-native-ble-plx:
-    :path: "../node_modules/react-native-ble-plx"
-  react-native-ble-plx-swift:
-    :path: "../node_modules/react-native-ble-plx"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -331,8 +321,6 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-ble-plx: 304c7bee074a05581672c9990f375b3906808718
-  react-native-ble-plx-swift: eb64f02b988becb84a60164aba9fab5d6ddb6dc8
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72

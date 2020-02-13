@@ -107,7 +107,7 @@ export default class App extends Component {
   handleDiscoverPeripheral(peripheral){
     var peripherals = this.state.peripherals;
     console.log('Got ble peripheral', peripheral);
-    if (peripheral.name == 'windup2') {
+    if (peripheral.name == 'pBeacon_n') {
       peripherals.set(peripheral.id, peripheral);
       this.setState({ peripherals });
     }

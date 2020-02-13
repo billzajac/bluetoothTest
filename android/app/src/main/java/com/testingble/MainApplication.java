@@ -5,7 +5,6 @@ import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import it.innove.BleManagerPackage;
-import com.polidea.reactnativeble.BlePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;

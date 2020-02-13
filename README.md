@@ -65,6 +65,17 @@ cd android
 ./gradlew assembleRelease
 ```
 
+* Hackey but working Bundle and Build
+```
+mkdir android/app/src/main/assets/
+react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle
+
+cd android
+./gradlew assembleRelease
+rm app/src/main/res/raw/app.json
+./gradlew assembleRelease
+```
+
 * FIXME: Error about duplicate file in src and build - tiny json file with name and projectName
 * SOLUTION: rm app/src/main/res/raw/app.json
 * NOTE: Also tried running react-native bundle without --assets-dest arg

@@ -702,7 +702,6 @@
 					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
 					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
 					"\"${PODS_ROOT}/Headers/Public/glog\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-ble-plx\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-ble-manager\"",
 				);
@@ -748,7 +747,6 @@
 					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
 					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
 					"\"${PODS_ROOT}/Headers/Public/glog\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-ble-plx\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-ble-manager\"",
 				);
