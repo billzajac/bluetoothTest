@@ -48,7 +48,7 @@ Build the APK
 
 * Add the passwords to android/app/build.gradle
 ```
-perl -pe -i "s/PASSWORD/ACTUAL_PASSWORD/" android/app/build.gradle
+perl -i -pe "s/PASSWORD/'ACTUAL_PASSWORD'/" android/app/build.gradle
 ```
 
 * Copy the keystore file in place
