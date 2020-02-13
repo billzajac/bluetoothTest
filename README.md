@@ -65,23 +65,21 @@ cd android
 ./gradlew assembleRelease
 ```
 
-* Hackey but working Bundle and Build
-```
-mkdir android/app/src/main/assets/
-react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle
-
-cd android
-./gradlew assembleRelease
-rm app/src/main/res/raw/app.json
-./gradlew assembleRelease
-```
-
 * FIXME: Error about duplicate file in src and build - tiny json file with name and projectName
 * SOLUTION: rm app/src/main/res/raw/app.json
 * NOTE: Also tried running react-native bundle without --assets-dest arg
 ```
 > Task :app:mergeReleaseResources FAILED
 [raw/app] /mnt/d/google-drive/code/react/bluetoothTest/android/app/src/main/res/raw/app.json    [raw/app] /mnt/d/google-drive/code/react/bluetoothTest/android/app/build/generated/res/react/release/raw/app.json: Error: Duplicate resources
+```
+
+* Hackey? but working Bundle and Build
+```
+mkdir android/app/src/main/assets/
+react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle
+
+cd android
+./gradlew assembleRelease
 ```
 
 Copy and Install the APK
